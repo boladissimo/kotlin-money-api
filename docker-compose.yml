@@ -1,0 +1,33 @@
+version: '3.4'
+
+services:
+
+  scylla-node-1:
+    image: scylladb/scylla:4.1.0
+    container_name: scylla-node-1
+    volumes:
+      - ./volume/scylla/node1:/var/lib/scylla
+    networks:
+      - development-network
+
+  scylla-node-2:
+    image: scylladb/scylla:4.1.0
+    container_name: scylla-node-2
+    command: --seeds=scylla-node-1
+    volumes:
+      - ./volume/scylla/node2:/var/lib/scylla
+    networks:
+      - development-network
+
+  scylla-node-3:
+    image: scylladb/scylla:4.1.0
+    container_name: scylla-node-3
+    volumes:
+      - ./volume/scylla/node3:/var/lib/scylla
+    command: --seeds=scylla-node-1
+    networks:
+      - development-network
+
+networks:
+  development-network:
+    driver: bridge
