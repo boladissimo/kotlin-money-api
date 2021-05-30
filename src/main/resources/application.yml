@@ -1,0 +1,9 @@
+#Cassandra Configuration
+spring.data.cassandra:
+  keyspace-name: money_api
+  local-datacenter: datacenter1
+  contact-points:
+    - 127.0.0.1:9042
+  schema-action: RECREATE
+  request:
+    timeout: 15s
