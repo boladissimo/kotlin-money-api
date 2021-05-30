@@ -3,6 +3,8 @@
 
 # scylla volume
 volume/
+!.keep
+!*/.keep
 
 # Log file
 *.log
@@ -34,3 +36,4 @@ hs_err_pid*
 .gradle/
 .classpath
 bin/
+build/
