@@ -1,6 +1,6 @@
 package com.boladissimo.kotlinmoneyapi.stocks.entity
 
-class DefaultStock(
+data class DefaultStock(
     private var code: String,
     private var fantasyName: String
     ) : Stock {

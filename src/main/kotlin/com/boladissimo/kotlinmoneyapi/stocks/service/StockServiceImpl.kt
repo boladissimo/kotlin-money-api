@@ -29,15 +29,17 @@ class StockServiceImpl(
     override fun update(code: String, stockRequest: StockUpdateRequest) {
         if (stockRepository.existsById(code)) {
             stockRepository.save(StockMapper(code, stockRequest.fantasyName))
+        } else {
+            throw java.lang.Exception() //TODO: 404 exception
         }
-        throw java.lang.Exception() //TODO: 404 exception
     }
 
     override fun delete(code: String) {
         if (stockRepository.existsById(code)) {
             stockRepository.deleteById(code)
+        } else {
+            throw java.lang.Exception() //TODO: 404 exception
         }
-        throw java.lang.Exception() //TODO: 404 exception
     }
 
     private fun toEntity(mapper: StockMapper) : DefaultStock {
