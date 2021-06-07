@@ -21,12 +21,21 @@ class StockServiceTest {
     private val expectedSavedStock = StockMapper(teslaCode, teslaFantasyName)
 
     @Test
-    fun `create, assert call save from repository with given values`() {
+    fun `create, assert that given non existent code, call save from repository with given values`() {
+        Mockito.`when`(repositoryMock.existsById(teslaCode)).thenReturn(false)
         val createRequest = StockCreateRequest(teslaCode, teslaFantasyName)
 
         service.create(createRequest)
 
         Mockito.verify(repositoryMock).save(expectedSavedStock)
+    }
+
+    @Test
+    fun `create, assert that given existent code, throw exception`() {
+        Mockito.`when`(repositoryMock.existsById(teslaCode)).thenReturn(true)
+        val createRequest = StockCreateRequest(teslaCode, teslaFantasyName)
+
+        assertThrows(Exception::class.java) { service.create(createRequest) }
     }
 
     @Test

@@ -1,8 +1,8 @@
 package com.boladissimo.kotlinmoneyapi.stocks.entity
 
 data class DefaultStock(
-    private var code: String,
-    private var fantasyName: String
+    var code: String,
+    var fantasyName: String
     ) : Stock {
 
     override fun code(): String {

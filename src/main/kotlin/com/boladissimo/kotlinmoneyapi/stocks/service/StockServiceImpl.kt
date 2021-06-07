@@ -16,12 +16,13 @@ class StockServiceImpl(
     ) : StockService {
 
     override fun create(stockRequest: StockCreateRequest) {
+        validateStockDontExists(stockRequest.code)
         stockRepository.save(StockMapper(stockRequest.code, stockRequest.fantasyName))
     }
 
     override fun findByCode(code: String): Stock {
         val stockMapper = stockRepository.findById(code)
-        return toEntity(stockMapper.orElseThrow()) //TODO: 404 exception
+        return toEntity(stockMapper.orElseThrow {ResponseStatusException(HttpStatus.NOT_FOUND, "Stock with code $code not found")})
     }
 
     override fun findAll(): List<Stock> {
@@ -45,6 +46,12 @@ class StockServiceImpl(
     private fun validateStockExists(code: String) {
         if (!stockRepository.existsById(code)) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, "Stock with code $code not found")
+        }
+    }
+
+    private fun validateStockDontExists(code: String) {
+        if (stockRepository.existsById(code)) {
+            throw ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Stock with code $code already found")
         }
     }
 }
